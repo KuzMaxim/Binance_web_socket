@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Binance.apps.BinanceConfig',
+    'channels',
 ]
+
+ASGI_APPLICATION = 'CoinCheck.asgi.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
