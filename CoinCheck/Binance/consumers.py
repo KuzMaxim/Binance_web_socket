@@ -47,7 +47,7 @@ class TickerConsumer(AsyncWebsocketConsumer):
 
     async def send_periodic_updates(self, ticker: str):
         while self.active:
-            await asyncio.sleep(60)  # Ждем 60 секунд
+            await asyncio.sleep(10)  # Ждем 60 секунд
             try:
                 price = await self.binance_api.get_coin(ticker)
                 await self.send(text_data=json.dumps({
