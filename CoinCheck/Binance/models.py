@@ -1,6 +1,10 @@
 from django.db import models
 from asgiref.sync import sync_to_async
 from django.core.exceptions import ValidationError
+from rest_framework import serializers#type: ignore
+
+
+
 
 class Crypto(models.Model):
     ticker = models.CharField(max_length=10)
@@ -24,3 +28,19 @@ class Crypto(models.Model):
             return crypto.price
         except Crypto.DoesNotExist:
             return None
+        
+    @staticmethod
+    @sync_to_async
+    def get_history(ticker):
+        try:
+            cryptos = Crypto.objects.filter(ticker=ticker)
+            serializer = CryptoSerializer(cryptos, many=True)
+            return serializer.data
+        except Exception as e:
+            return {'error': str(e)}
+
+
+class CryptoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crypto
+        fields = ['ticker', 'price', 'time_create']

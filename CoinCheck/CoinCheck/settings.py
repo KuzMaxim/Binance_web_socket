@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Binance.apps.BinanceConfig',
     'channels',
+    'rest_framework',
 ]
 
 ASGI_APPLICATION = 'CoinCheck.asgi.application'

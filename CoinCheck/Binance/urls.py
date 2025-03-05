@@ -1,7 +1,6 @@
-from django.urls import path, include
-from Binance.routing import websocket_urlpatterns
 from . import views
+from django.urls import path, include
 
 urlpatterns = [
-    path('', views.index),
+    path('history', views.check_history)
 ]
