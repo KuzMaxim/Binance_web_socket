@@ -8,23 +8,23 @@ from rest_framework import serializers#type: ignore
 
 class Crypto(models.Model):
     ticker = models.CharField(max_length=10)
-    price = models.IntegerField()
+    price = models.DecimalField(max_digits=20, decimal_places=10)
     time_create = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.ticker
     
     @staticmethod
+    @sync_to_async
     def post(ticker, price):
         instance = Crypto(ticker=ticker, price=price)
-        instance.full_clean() # Валидация перед сохранением
         instance.save() 
     
     @staticmethod
     @sync_to_async
-    def get(ticker):
+    def get(full_ticker):
         try:
-            crypto = Crypto.objects.filter(ticker=ticker).latest('time_create')
+            crypto = Crypto.objects.filter(ticker=full_ticker).latest('time_create')
             return crypto.price
         except Crypto.DoesNotExist:
             return None
@@ -33,7 +33,7 @@ class Crypto(models.Model):
     @sync_to_async
     def get_history(ticker):
         try:
-            cryptos = Crypto.objects.filter(ticker=ticker)
+            cryptos = Crypto.objects.filter(ticker__startswith=ticker)
             serializer = CryptoSerializer(cryptos, many=True)
             return serializer.data
         except Exception as e:

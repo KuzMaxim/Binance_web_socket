@@ -83,10 +83,17 @@ WSGI_APPLICATION = 'CoinCheck.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'crypto-db',
+        'USER': 'postgres',
+        'HOST': 'localhost',  # или IP-адрес сервера базы данных
+        'PORT': '5432',       # стандартный порт PostgreSQL
+        'OPTIONS': {
+            'charset': 'utf8mb4',  # Используйте utf8mb4 для поддержки всех символов
+        },
     }
 }
+
 
 
 # Password validation
